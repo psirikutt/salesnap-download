@@ -1,25 +1,126 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaleSnap Download</title>
-  <script>
-    // ตรวจสอบอุปกรณ์เพื่อเปลี่ยนเส้นทาง
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-
-    if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-      window.location.replace("https://apps.apple.com/th/app/salesnap/id6805793799");
-    } else if (/android/i.test(ua)) {
-      window.location.replace("https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap");
-    } else {
-      window.location.replace("https://www.facebook.com/cmdevstudio");
+  <title>ดาวน์โหลด SaleSnap POS</title>
+  <style>
+    /* Base Layout */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      text-align: center;
+      background-color: #f8fafc;
+      color: #1e293b;
     }
-  </script>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Elements */
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    p {
+      color: #64748b;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .badge-grid {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .badge-card {
+      background: #f1f5f9;
+      padding: 16px;
+      border-radius: 12px;
+      width: 180px;
+    }
+    .qr-image {
+      width: 140px;
+      height: 140px;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .btn {
+      display: block;
+      margin-top: 12px;
+      padding: 10px 16px;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn-ios { background-color: #000000; }
+    .btn-android { background-color: #059669; }
+    
+    /* Display Control */
+    #mobile-view { display: none; }
+    #desktop-view { display: none; }
+  </style>
 </head>
 <body>
-  <p style="text-align: center; margin-top: 30%; font-family: sans-serif; font-size: 16px; color: #555;">
-    กำลังพาไปยังหน้าร้านค้าเพื่อดาวน์โหลด...
-  </p>
+
+  <div class="container">
+    <!-- Section: Mobile Redirect View -->
+    <div id="mobile-view">
+      <h1>SaleSnap POS</h1>
+      <p>กำลังนำท่านไปยัง Store...</p>
+      <div style="margin-top: 24px;">
+        <p>หากระบบไม่เปลี่ยนหน้าอัตโนมัติ เลือกดาวน์โหลดได้ที่นี่:</p>
+        <a class="btn btn-ios" href="https://apps.apple.com/th/app/salesnap/id6805793799">App Store (iOS)</a>
+        <a class="btn btn-android" href="https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap">Google Play (Android)</a>
+      </div>
+    </div>
+
+    <!-- Section: Desktop / PC View -->
+    <div id="desktop-view">
+      <h1>SaleSnap POS</h1>
+      <p>สแกน QR Code ด้วยสมาร์ตโฟนของคุณ เพื่อดาวน์โหลดแอป</p>
+      
+      <div class="badge-grid">
+        <div class="badge-card">
+          <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://apps.apple.com/th/app/salesnap/id6805793799" alt="QR Code iOS">
+          <a class="btn btn-ios" href="https://apps.apple.com/th/app/salesnap/id6805793799" target="_blank">เปิด App Store</a>
+        </div>
+        
+        <div class="badge-card">
+          <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap" alt="QR Code Android">
+          <a class="btn btn-android" href="https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap" target="_blank">เปิด Google Play</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Device Detection Logic */
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /android/i.test(userAgent);
+
+    const iosUrl = "https://apps.apple.com/th/app/salesnap/id6805793799";
+    const androidUrl = "https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap";
+
+    if (isIOS) {
+      document.getElementById("mobile-view").style.display = "block";
+      window.location.replace(iosUrl);
+    } else if (isAndroid) {
+      document.getElementById("mobile-view").style.display = "block";
+      window.location.replace(androidUrl);
+    } else {
+      document.getElementById("desktop-view").style.display = "block";
+    }
+  </script>
 </body>
 </html>
