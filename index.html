@@ -3,9 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ดาวน์โหลด SaleSnap</title>
+  <title>ดาวน์โหลด SaleSnap POS</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '6576039252427922');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=6576039252427922&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
   <style>
-    /* Base Layout */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
@@ -22,17 +41,8 @@
       border-radius: 16px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
-    
-    /* Elements */
-    h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-    p {
-      color: #64748b;
-      font-size: 15px;
-      line-height: 1.5;
-    }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p { color: #64748b; font-size: 15px; line-height: 1.5; }
     .badge-grid {
       display: flex;
       justify-content: center;
@@ -46,12 +56,7 @@
       border-radius: 12px;
       width: 180px;
     }
-    .qr-image {
-      width: 140px;
-      height: 140px;
-      border-radius: 8px;
-      background: #fff;
-    }
+    .qr-image { width: 140px; height: 140px; border-radius: 8px; background: #fff; }
     .btn {
       display: block;
       margin-top: 12px;
@@ -64,60 +69,68 @@
     }
     .btn-ios { background-color: #000000; }
     .btn-android { background-color: #059669; }
-    
-    /* Display Control */
-    #mobile-view { display: none; }
-    #desktop-view { display: none; }
+    #mobile-view, #desktop-view { display: none; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Section: Mobile Redirect View -->
+    <!-- มุมมองสำหรับมือถือ (Mobile View) -->
     <div id="mobile-view">
-      <h1>SaleSnap</h1>
+      <h1>SaleSnap POS</h1>
       <p>กำลังนำท่านไปยัง Store...</p>
       <div style="margin-top: 24px;">
         <p>หากระบบไม่เปลี่ยนหน้าอัตโนมัติ เลือกดาวน์โหลดได้ที่นี่:</p>
-        <a class="btn btn-ios" href="https://apps.apple.com/th/app/salesnap/id6805793799">App Store (iOS)</a>
-        <a class="btn btn-android" href="https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap">Google Play (Android)</a>
+        <a id="btn-mobile-ios" class="btn btn-ios" href="#">App Store (iOS)</a>
+        <a id="btn-mobile-android" class="btn btn-android" href="#">Google Play (Android)</a>
       </div>
     </div>
 
-    <!-- Section: Desktop / PC View -->
+    <!-- มุมมองสำหรับคอมพิวเตอร์ (Desktop / PC View) -->
     <div id="desktop-view">
-      <h1>SaleSnap</h1>
-      <p>สแกน QR Code ด้วยสมาร์ตโฟนของคุณ เพื่อดาวน์โหลดแอป</p>
-      
+      <h1>SaleSnap POS</h1>
+      <p>สแกน QR Code ด้วยสมาร์ตโฟนเพื่อดาวน์โหลดแอป</p>
       <div class="badge-grid">
         <div class="badge-card">
-          <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://apps.apple.com/th/app/salesnap/id6805793799" alt="QR Code iOS">
-          <a class="btn btn-ios" href="https://apps.apple.com/th/app/salesnap/id6805793799" target="_blank">เปิด App Store</a>
+          <img id="qr-ios" class="qr-image" src="" alt="QR Code iOS">
+          <a id="btn-desktop-ios" class="btn btn-ios" href="#" target="_blank">เปิด App Store</a>
         </div>
-        
         <div class="badge-card">
-          <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap" alt="QR Code Android">
-          <a class="btn btn-android" href="https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap" target="_blank">เปิด Google Play</a>
+          <img id="qr-android" class="qr-image" src="" alt="QR Code Android">
+          <a id="btn-desktop-android" class="btn btn-android" href="#" target="_blank">เปิด Google Play</a>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    /* Device Detection Logic */
+    // กำหนด URL ปลายทางของ Store
+    const iosUrl = "https://apps.apple.com/th/app/salesnap/id6805793799";
+    const androidUrl = "https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap";
+
+    // อัปเดตลิงก์ไปยังปุ่มและ QR Code
+    document.getElementById("btn-mobile-ios").href = iosUrl;
+    document.getElementById("btn-mobile-android").href = androidUrl;
+    document.getElementById("btn-desktop-ios").href = iosUrl;
+    document.getElementById("btn-desktop-android").href = androidUrl;
+    document.getElementById("qr-ios").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(iosUrl);
+    document.getElementById("qr-android").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(androidUrl);
+
+    // ตรวจสอบประเภทอุปกรณ์
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
     const isAndroid = /android/i.test(userAgent);
 
-    const iosUrl = "https://apps.apple.com/th/app/salesnap/id6805793799";
-    const androidUrl = "https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap";
-
     if (isIOS) {
       document.getElementById("mobile-view").style.display = "block";
-      window.location.replace(iosUrl);
+      setTimeout(function() {
+        window.location.replace(iosUrl);
+      }, 700);
     } else if (isAndroid) {
       document.getElementById("mobile-view").style.display = "block";
-      window.location.replace(androidUrl);
+      setTimeout(function() {
+        window.location.replace(androidUrl);
+      }, 700);
     } else {
       document.getElementById("desktop-view").style.display = "block";
     }
