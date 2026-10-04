@@ -70,6 +70,20 @@
     .btn-ios { background-color: #000000; }
     .btn-android { background-color: #059669; }
     #mobile-view, #desktop-view { display: none; }
+
+    /* สไตล์สำหรับตัวหมุนโหลด (Loading Spinner) */
+    .spinner {
+      width: 36px;
+      height: 36px;
+      margin: 16px auto;
+      border: 4px solid #e2e8f0;
+      border-top-color: #1e293b;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -78,6 +92,7 @@
     <!-- มุมมองสำหรับมือถือ (Mobile View) -->
     <div id="mobile-view">
       <h1>SaleSnap POS</h1>
+      <div class="spinner"></div>
       <p>กำลังนำท่านไปยัง Store...</p>
       <div style="margin-top: 24px;">
         <p>หากระบบไม่เปลี่ยนหน้าอัตโนมัติ เลือกดาวน์โหลดได้ที่นี่:</p>
@@ -118,7 +133,7 @@
 
     // ตรวจสอบประเภทอุปกรณ์
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isIOS = (/iPad|iPhone|iPod/.test(userAgent) || (/Macintosh/.test(userAgent) && navigator.maxTouchPoints > 1)) && !window.MSStream;
     const isAndroid = /android/i.test(userAgent);
 
     if (isIOS) {
