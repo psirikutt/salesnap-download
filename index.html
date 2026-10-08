@@ -123,13 +123,11 @@
     const iosUrl = "https://apps.apple.com/th/app/salesnap/id6805793799";
     const androidUrl = "https://play.google.com/store/apps/details?id=org.chiangmeng.salesnap";
 
-    // อัปเดตลิงก์ไปยังปุ่มและ QR Code
+    // อัปเดตลิงก์ไปยังปุ่มสำรอง
     document.getElementById("btn-mobile-ios").href = iosUrl;
     document.getElementById("btn-mobile-android").href = androidUrl;
     document.getElementById("btn-desktop-ios").href = iosUrl;
     document.getElementById("btn-desktop-android").href = androidUrl;
-    document.getElementById("qr-ios").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(iosUrl);
-    document.getElementById("qr-android").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(androidUrl);
 
     // ตรวจสอบประเภทอุปกรณ์
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -138,16 +136,20 @@
 
     if (isIOS) {
       document.getElementById("mobile-view").style.display = "block";
+      // หน่วงเวลา 700ms ให้ Pixel ส่งสัญญาณ PageView ออกจากเครื่องทันก่อนเปิด App Store
       setTimeout(function() {
         window.location.replace(iosUrl);
-      }, 500);
+      }, 800);
     } else if (isAndroid) {
       document.getElementById("mobile-view").style.display = "block";
       setTimeout(function() {
         window.location.replace(androidUrl);
       }, 500);
     } else {
+      // โหลดรูป QR Code เฉพาะเมื่อเปิดบนคอมพิวเตอร์เท่านั้น เพื่อไม่ให้แย่งเน็ตมือถือ
       document.getElementById("desktop-view").style.display = "block";
+      document.getElementById("qr-ios").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(iosUrl);
+      document.getElementById("qr-android").src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=" + encodeURIComponent(androidUrl);
     }
   </script>
 </body>
